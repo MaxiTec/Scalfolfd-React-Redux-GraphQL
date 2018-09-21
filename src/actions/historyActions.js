@@ -10,6 +10,8 @@ para identificar que accion es
 * El segundo parametro es el parametro que tiene el nuevo estado
 se puede pasar como una propiedad del onbeto
 */
+let nextTodoId = 0
+// Puedo usar variables que se usen dentro de cada funcion
 export const calculate = (result) => ({
   type: actionTypes.CALCULATE,
   result
@@ -17,7 +19,16 @@ export const calculate = (result) => ({
 export const register = (result) => ({
   type: actionTypes.SAVE_OPERATION,
   // payload puede llamarse como sea
+  id: nextTodoId++,
   payload: result
+})
+export const _delete = (id) => ({
+  type: actionTypes.DELETE_OPERATION,
+  payload: id
+})
+export const completed = (id) => ({
+  type: actionTypes.COMPLETED_OPERATION,
+  payload: id
 })
 // Y luego exportamos la funcion que hace dispatch de la funcion
 // export const

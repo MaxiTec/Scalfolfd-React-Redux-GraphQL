@@ -8,15 +8,21 @@ class Calculator extends Component {
     super(props)
     this.state = { }
     console.log('esoty en Calculadora')
-    console.log(props)
+    console.log(...props)
+    this.handleClick = this.handleClick.bind(this)
   }
   handleSubmit (e) {
     e.preventDefault()
+    console.log(this.props)
     let numberOne = Number(this.refs.numUno.value)
     let numberTwo = Number(this.refs.numDos.value)
     let res = `El Resultado es: ${numberOne + numberTwo}`
     this.props.actions.calculate(numberOne + numberTwo)
     this.props.actions.register(res)
+  }
+  handleClick (param) {
+    this.props.actions.completed(param)
+    console.log(param)
   }
   render () {
     return (
@@ -28,7 +34,8 @@ class Calculator extends Component {
         </form>
         {/* Como puedes observar los dos componentes accedes al mismo estado y no son Hermanos Independientes */}
         Initial State: {this.props.result}
-        <Historial />
+        {/* forma cordecta de pasar funciones a los Hijos */}
+        <Historial completedItem={this.handleClick} />
       </div>
     )
   }
@@ -43,7 +50,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     isLogged: state.login.isLogged,
-    result: state.calculadora.result
+    result: state.calculadora.result,
+    user: state.login.user
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Calculator)

@@ -7,7 +7,7 @@ class Login extends Component {
     super(props)
     this.state = { }
     this.handleSubmit = this.handleSubmit.bind(this)
-    console.log(props)
+    console.log(props.session)
   }
   handleSubmit (e) {
     e.preventDefault()
@@ -29,11 +29,12 @@ class Login extends Component {
     )
   }
 }
-const mapStateToProps = (state) => ({
-  isLogged: state.login.isLogged,
-  loading: state.login.loading,
-  error: state.login.error
-})
+const mapStateToProps = (state) => {
+  const session = {session: state.login}
+  return {
+    session
+  }
+}
 const mapDispacthToProps = (dispatch) => {
   return {
     actions: bindActionCreators(loginActions, dispatch)

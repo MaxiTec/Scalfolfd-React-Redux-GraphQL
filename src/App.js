@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Redirect } from 'react-router'
 // import List from './components/list'
 import gpl from 'graphql-tag'
 // import {graphql} from 'graphql'
@@ -14,22 +13,26 @@ import './App.css'
 // importamos Containers
 import Login from './containers/Login'
 import Calculator from './containers/Calculator'
-const MatchWhenAuthorized = ({ component: Component, ...rest, auth }) => (
-  <Route {...rest} render={renderProps => (
-    auth ? (
-      <Component />
-    ) : (
-      <Redirect to={{
-        pathname: '/login'
-      }} />
-      )
-  )} />
-)
+const MatchWhenAuthorized = ({ component: Component, ...rest, auth }) => {
+  console.log(auth)
+  return (
+    <Route {...rest} render={renderProps => (
+      auth ? (
+        <Component />
+      ) : (
+        <Redirect to={{
+          pathname: '/login',
+          state: { from: renderProps.location }
+        }} />
+        )
+    )} />
+  )
+}
 class App extends Component {
   constructor (props) {
     super(props)
     // this.handleSubmit = this.handleSubmit.bind(this)
-    console.log(`${props}`)
+    console.log(props)
   }
   renderLoader () {
     return (
@@ -39,6 +42,7 @@ class App extends Component {
     )
   }
   renderRoutes () {
+    console.log(this.props)
     return (
       <div>
         <Route exact path='/' render={() => (
@@ -71,11 +75,11 @@ class App extends Component {
       //     )
       //   }}
       // </Query>
-    // if (this.props.loading) {
-    //   return this.renderLoader()
-    // } else {
-    return this.renderRoutes()
-    // }
+    if (this.props.loading) {
+      return this.renderLoader()
+    } else {
+      return this.renderRoutes()
+    }
   }
 }
 // const queryProfesores = gpl`
